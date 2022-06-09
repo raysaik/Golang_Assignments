@@ -9,6 +9,19 @@ func main() {
 	card := "Ace of Spades" //only used for new variable not already declared variables
 	card = newCard()
 	fmt.Println(card)
+
+	cards := []string{newCard(), newCard(), "Ace of diamonds"}
+	fmt.Println(cards)
+	for i, card := range cards {
+		fmt.Println(i, card)
+	}
+
+	cards = append(cards, "Squeen of Scades") //Immutable operation- create a new variable and assignes to cards
+
+	for card := range cards {
+		fmt.Println(card)
+	}
+
 	deckSize = 25
 	fmt.Println(deckSize)
 }
