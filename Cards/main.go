@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 var deckSize int
 
@@ -12,18 +10,21 @@ func main() {
 	card = newCard()
 	fmt.Println(card)
 
-	cards := newDeck()
+	cards := NewDeck()
 	fmt.Println(cards)
 
 	cards.print()
 
 	cards = append(cards, "Squeen of Scades") //Immutable operation- create a new variable and assignes to cards
 
-	// for card := range cards {
-	// 	fmt.Println(card)
-	// }
 	deckSize = 25
 	fmt.Println(deckSize)
+
+	hand, remainingcards := deal(cards, 5)
+
+	hand.print()
+	fmt.Println("BREAK")
+	remainingcards.print()
 }
 
 func newCard() string {

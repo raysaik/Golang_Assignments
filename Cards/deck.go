@@ -11,7 +11,7 @@ func (d deck) print() {
 	}
 }
 
-func newDeck() deck {
+func NewDeck() deck {
 	cards := deck{}
 	cardSuites := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
 	cardValues := []string{"Ace", "2", "3", "4"}
@@ -22,4 +22,8 @@ func newDeck() deck {
 		}
 	}
 	return cards
+}
+
+func deal(d deck, handsize int) (deck, deck) {
+	return d[:handsize], d[handsize:]
 }
