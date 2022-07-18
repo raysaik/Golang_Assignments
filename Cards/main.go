@@ -25,6 +25,9 @@ func main() {
 	hand.print()
 	fmt.Println("BREAK")
 	remainingcards.print()
+
+	cardsTwo := NewDeck()
+	fmt.Println(cardsTwo.ToString())
 }
 
 func newCard() string {
