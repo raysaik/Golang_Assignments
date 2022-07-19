@@ -20,14 +20,18 @@ func main() {
 	deckSize = 25
 	fmt.Println(deckSize)
 
+	//Deal Cards Code
 	hand, remainingcards := deal(cards, 5)
-
 	hand.print()
 	fmt.Println("BREAK")
 	remainingcards.print()
 
+	//string operations
 	cardsTwo := NewDeck()
 	fmt.Println(cardsTwo.ToString())
+
+	//saving to file
+	cardsTwo.SaveToDrive("abcd")
 }
 
 func newCard() string {
