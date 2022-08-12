@@ -14,6 +14,8 @@ type Bill struct {
 const CurrencyHigher string = "£"
 const CurrencyLower string = "p"
 
+var AllBills Bill
+
 func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 	var price float32
 
@@ -26,6 +28,7 @@ func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 	fmt.Printf("Subtotal: %s\n", priceWithCurrency)
 	bill.TotalPrice = price
 	bill.UserBasket = basket
+	AllBills = bill
 	return bill
 }
 
@@ -61,7 +64,7 @@ func (bill Bill) ApplyOffersToTotalPrice(offers Offers) {
 		discount := originalPrice * offer.DiscountPercent / 100
 		discountValue += discount
 	}
-	finalPrice := bill.TotalPrice - discountValue
+	finalPrice := AllBills.TotalPrice - discountValue
 	finalPriceWithCurrency := fmt.Sprintf("%s%.2f", CurrencyHigher, finalPrice)
 	fmt.Printf("Total:%s", finalPriceWithCurrency)
 }

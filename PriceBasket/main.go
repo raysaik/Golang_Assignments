@@ -6,26 +6,25 @@ import (
 	"os"
 )
 
-var AllItems Items
-var UserBasket Basket
-var UserOffers Offers
-var UserBill Bill
+var PriceBasketItems Items
+var PriceBasket Basket
+var PriceBasketOffers Offers
+var PriceBasketBill Bill
 
 func main() {
 	fmt.Println("Hi There! Welcome to the PriceBasket App")
+	//Set initial values
+	PriceBasketItems.AddInitialItems()
+	PriceBasketOffers.SetInitialOffers()
 
-	AllItems.AddInitialItems()
-
+	//Create Data from User input
 	input := GetUserInput()
-	UserBasket = UserBasket.CreateBasketFromInput(input)
-	UserOffers.SetInitialOffers()
-	UserBill = UserBill.GenerateBillForBasket(UserBasket)
-	UserOffers = UserOffers.GetOffersForBasket(UserBasket)
-	UserBill.ApplyOffersToTotalPrice(UserOffers)
-	// fmt.Println(AllItems)
-	// fmt.Println(UserBasket)
-	fmt.Println("\nThe applciable offers are as ")
-	fmt.Println(UserOffers)
+	basket := PriceBasket.CreateBasketFromInput(input)
+
+	//Generate Bill
+	PriceBasketBill.GenerateBillForBasket(basket)
+	offers := PriceBasketOffers.GetOffersForBasket(basket)
+	PriceBasketBill.ApplyOffersToTotalPrice(offers)
 
 }
 
