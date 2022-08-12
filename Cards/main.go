@@ -32,6 +32,10 @@ func main() {
 
 	//saving to file
 	cardsTwo.SaveToDrive("abcd")
+
+	//ReadFromFile
+	cardsThree := GetCardsFromFile("ajbcd")
+	fmt.Println("New Cards:", cardsThree)
 }
 
 func newCard() string {

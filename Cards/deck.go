@@ -42,10 +42,11 @@ func (d deck) SaveToDrive(filename string) error {
 }
 
 func GetCardsFromFile(filename string) deck {
-	_, err := ioutil.ReadFile(filename)
+	bs, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println("Error is ", err)
 		os.Exit(1)
 	}
-	return nil
+	strSlice := strings.Split(string(bs), ",")
+	return deck(strSlice)
 }
