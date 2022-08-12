@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 type Bill struct {
@@ -12,7 +11,8 @@ type Bill struct {
 	OfferPrice float32
 }
 
-const Currency string = "GBP"
+const CurrencyHigher string = "£"
+const CurrencyLower string = "p"
 
 func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 	var price float32
@@ -22,7 +22,8 @@ func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 		unitPrice := ConvertCurrencyDenomination(itemDetails)
 		price += unitPrice
 	}
-	fmt.Printf("SubTotal: £%.2f", price)
+	priceWithCurrency := fmt.Sprintf("%s%.2f", CurrencyHigher, price)
+	fmt.Printf("Subtotal: %s\n", priceWithCurrency)
 	bill.TotalPrice = price
 	bill.UserBasket = basket
 	return bill
@@ -31,12 +32,24 @@ func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 func ConvertCurrencyDenomination(item Item) float32 {
 	currencyDenomination := item.CurrencyDenominator
 	finalPriceInUpperDenomination := item.UnitPrice
-	if strings.ToUpper(Currency) == "GBP" {
-		if currencyDenomination != "£" {
+	if CurrencyHigher == "£" {
+		if currencyDenomination != CurrencyHigher {
 			finalPriceInUpperDenomination = item.UnitPrice / 100
 		}
 	}
 	return finalPriceInUpperDenomination
+}
+
+func ConvertCurrencyDenominationForDiscounts(currency string, discountValue float32) string {
+
+	if currency == CurrencyHigher {
+		discountValue *= 100
+	}
+	if discountValue >= 100 {
+		return fmt.Sprintf("%v%s", discountValue/100, CurrencyHigher)
+	} else {
+		return fmt.Sprintf("%v%s", discountValue, CurrencyLower)
+	}
 }
 
 func (bill Bill) ApplyOffersToTotalPrice(offers Offers) {
@@ -49,5 +62,6 @@ func (bill Bill) ApplyOffersToTotalPrice(offers Offers) {
 		discountValue += discount
 	}
 	finalPrice := bill.TotalPrice - discountValue
-	fmt.Printf("Total:£%.2f", finalPrice)
+	finalPriceWithCurrency := fmt.Sprintf("%s%.2f", CurrencyHigher, finalPrice)
+	fmt.Printf("Total:%s", finalPriceWithCurrency)
 }

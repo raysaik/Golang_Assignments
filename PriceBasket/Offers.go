@@ -29,7 +29,7 @@ func (o Offers) GetOffersForBasket(basket Basket) Offers {
 	var basketOffers Offers
 	sort.Strings(basket.BasketItems)
 	sortedBasketItems := strings.Join(basket.BasketItems, ",")
-	fmt.Println("sortedBasketItems " + sortedBasketItems)
+	//fmt.Println("sortedBasketItems " + sortedBasketItems)
 	for _, offer := range AllOffers {
 
 		splitArray := strings.Split(string(offer.BasketConditionItemNames), ",")
@@ -51,30 +51,34 @@ func (o Offers) GetOffersForBasket(basket Basket) Offers {
 					if index != (len(parentString) - len(offer.BasketConditionItemNames)) {
 						replaceString += ","
 					}
-					fmt.Println("offer.BasketConditionItemNames " + offer.BasketConditionItemNames)
+					//fmt.Println("offer.BasketConditionItemNames " + offer.BasketConditionItemNames)
 
 					indexTwo := strings.LastIndex(parentString, offer.ItemName)
 					replaceStringTwo := offer.ItemName
 					if indexTwo != (len(parentString) - len(offer.ItemName)) {
 						replaceStringTwo += ","
 					}
-					fmt.Println("offer.ItemName " + offer.ItemName)
+					//fmt.Println("offer.ItemName " + offer.ItemName)
 					parentString = parentString[:index] + strings.Replace(parentString[index:], replaceString, "", 1)
 					parentString = parentString[:indexTwo] + strings.Replace(parentString[indexTwo:], replaceStringTwo, "", 1)
 					sortedBasketItems = parentString
-					fmt.Println("excludingLast  " + sortedBasketItems)
+					//fmt.Println("excludingLast  " + sortedBasketItems)
 				} else {
 					break
 				}
 			}
 		}
 	}
-
-	for _, offer := range basketOffers {
-		percentString := fmt.Sprintf("%v%s", offer.DiscountPercent, "%")
-		itemDetails := GetItemDetails(offer.ItemName)
-		offValue := itemDetails.UnitPrice * offer.DiscountPercent / 100
-		fmt.Printf("%s %v off:-%v\n", offer.ItemName, percentString, offValue)
+	if len(basketOffers) > 0 {
+		for _, offer := range basketOffers {
+			percentString := fmt.Sprintf("%v%s", offer.DiscountPercent, "%")
+			itemDetails := GetItemDetails(offer.ItemName)
+			offValue := itemDetails.UnitPrice * offer.DiscountPercent / 100
+			offValueWithCurrency := ConvertCurrencyDenominationForDiscounts(itemDetails.CurrencyDenominator, offValue)
+			fmt.Printf("%s %v off:-%v\n", offer.ItemName, percentString, offValueWithCurrency)
+		}
+	} else {
+		fmt.Printf("(no offers available)\n")
 	}
 	return basketOffers
 }
