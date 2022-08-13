@@ -1,2 +1,2 @@
 # Golang_Practice
-All Go Lang practices
+All Go Lang assignments
