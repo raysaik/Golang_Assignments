@@ -13,7 +13,7 @@ type Items []Item
 
 var AllItemsAdded Items
 
-func (I Items) AddInitialItems() Items {
+func (I Items) AddInitialItems() {
 	newItem := Item{"Soup", 65, "tin", "p"}
 	I = append(I, newItem)
 	newItem = Item{"Bread", 80, "loaf", "p"}
@@ -23,11 +23,11 @@ func (I Items) AddInitialItems() Items {
 	newItem = Item{"Apples", 1.00, "bag", "£"}
 	I = append(I, newItem)
 	AllItemsAdded = I
-	return I
 }
 
 func GetItemDetails(ItemName string) Item {
 	var currentItem Item
+	//needs thread safety
 	for _, item := range AllItemsAdded {
 		if strings.ToLower(item.ItemName) == strings.ToLower(ItemName) {
 			currentItem = item

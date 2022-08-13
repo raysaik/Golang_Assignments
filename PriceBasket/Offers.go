@@ -41,20 +41,22 @@ func (o Offers) GetOffersForBasket(basket Basket) Offers {
 			}
 
 		} else {
+			//needs thread safety
 			for true {
 				if SplitAndCompareItemsMatch(offer.BasketConditionItemNames, sortedBasketItems) && strings.Contains(strings.ToLower(sortedBasketItems), strings.ToLower(offer.ItemName)) {
 					basketOffers = append(basketOffers, offer)
-					parentString := sortedBasketItems
-					index := strings.LastIndex(parentString, offer.BasketConditionItemNames)
-					replaceString := offer.BasketConditionItemNames
+					parentString := strings.ToLower(sortedBasketItems)
+					index := strings.LastIndex(parentString, strings.ToLower(offer.BasketConditionItemNames))
+					replaceString := strings.ToLower(offer.BasketConditionItemNames)
 					if index != (len(parentString) - len(offer.BasketConditionItemNames)) {
 						replaceString += ","
 					}
-					indexTwo := strings.LastIndex(parentString, offer.ItemName)
-					replaceStringTwo := offer.ItemName
+					indexTwo := strings.LastIndex(parentString, strings.ToLower(offer.ItemName))
+					replaceStringTwo := strings.ToLower(offer.ItemName)
 					if indexTwo != (len(parentString) - len(offer.ItemName)) {
 						replaceStringTwo += ","
 					}
+
 					parentString = parentString[:index] + strings.Replace(parentString[index:], replaceString, "", 1)
 					parentString = parentString[:indexTwo] + strings.Replace(parentString[indexTwo:], replaceStringTwo, "", 1)
 					sortedBasketItems = parentString

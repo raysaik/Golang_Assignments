@@ -16,7 +16,7 @@ const CurrencyLower string = "p"
 
 var AllBills Bill
 
-func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
+func (bill Bill) GenerateBillForBasket(basket Basket) {
 	var price float32
 
 	for _, itemName := range basket.BasketItems {
@@ -29,7 +29,6 @@ func (bill Bill) GenerateBillForBasket(basket Basket) Bill {
 	bill.TotalPrice = price
 	bill.UserBasket = basket
 	AllBills = bill
-	return bill
 }
 
 func ConvertCurrencyDenomination(item Item) float32 {
@@ -57,7 +56,7 @@ func ConvertCurrencyDenominationForDiscounts(currency string, discountValue floa
 
 func (bill Bill) ApplyOffersToTotalPrice(offers Offers) {
 	var discountValue float32
-
+	//needs thread safety
 	for _, offer := range offers {
 		itemDetails := GetItemDetails(offer.ItemName)
 		originalPrice := ConvertCurrencyDenomination(itemDetails)
