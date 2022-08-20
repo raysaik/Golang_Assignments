@@ -21,4 +21,6 @@ func main() {
 	}
 	responseData, err := ioutil.ReadAll(response.Body)
 	fmt.Println(string(responseData))
+
+	sendMessageToTeams()
 }
